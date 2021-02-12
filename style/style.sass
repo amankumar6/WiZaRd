@@ -70,11 +70,13 @@ body
     @include pos(4px, 4px, auto, auto)
     @include flex(center,center)
     width: 40px
-    z-index: 5
+    z-index: 4
     transform: translate(-4px,4px)
     cursor: pointer
     background: rgba(255,255,255,0.03)
     padding: 10px 
+    opacity: 0
+    transition: opacity 400ms cubic-bezier(.694,.048,.335,1) 1300ms
     border-radius: 5px
 
 #particles-js
@@ -82,7 +84,7 @@ body
     width: 100%
     height: 100vh
     background-color: black
-    transition: all 200ms cubic-bezier(.694,.048,.335,1)
+    transition: all 200ms cubic-bezier(.694,.048,.335,1) 300ms
 
     canvas
         display: block
@@ -90,9 +92,6 @@ body
         position: relative
         opacity: 0
         transition: opacity 1300ms cubic-bezier(.694,.048,.335,1) 600ms
-
-    .canvasLoaded
-        opacity: 1
 
     .video
         position: absolute
@@ -103,9 +102,6 @@ body
         overflow: hidden
         opacity: 0
         transition: opacity 1300ms cubic-bezier(.694,.048,.335,1) 1300ms
-
-    .videoLoaded
-        opacity: 1
 
     .intro
         font-family: League Spartan, Helvetica, Arial, sans-serif
@@ -289,7 +285,7 @@ body
     animation: animate 100s linear infinite
 
 .overlay
-    filter: blur(5px)
+    filter: opacity(30%)
 
 @keyframes moveGradient
     50%

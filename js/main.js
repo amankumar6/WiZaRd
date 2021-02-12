@@ -21,8 +21,9 @@ $(document).ready(function () {
             $('#loader').addClass('loaded1');
     }
 
-    $('canvas').addClass('canvasLoaded');
-    $('.video').addClass('videoLoaded');
+    $('canvas').css('opacity','1');
+    $('.video').css('opacity','1');
+    $('.mute').css('opacity','1');
     $('.intro').addClass('introLoaded');
 
     // text animation
@@ -39,7 +40,7 @@ $(document).ready(function () {
         $(".followMe ul li a span").addClass("textAnimation")
         $("#particles-js").addClass("overlay")
         $("body").click(function (e) {
-            if (e.target.localName == "canvas") close()
+            if(e.target.className != "followMe" && e.target.className != "follow" ) close()
         });
     });
 
