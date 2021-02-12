@@ -70,7 +70,7 @@ body
     @include pos(4px, 4px, auto, auto)
     @include flex(center,center)
     width: 40px
-    z-index: 4
+    z-index: 5
     transform: translate(-4px,4px)
     cursor: pointer
     background: rgba(255,255,255,0.03)
@@ -280,6 +280,24 @@ body
 .followMeActive
     opacity: 1
     @include pos(50%, auto, auto, 50%)
+
+@media screen and ( max-width: 670px  )
+    .followMe
+        width: 80%
+        
+    .followMeActive
+        @include pos(60%, auto, auto, 50%)
+
+@media screen and ( max-width: 420px  )
+    .followMe
+        width: 90%
+        padding: 1rem 2rem
+
+@media screen and ( max-width: 372px  )
+    .followMe
+        width: 95%
+        ul li
+            margin: 1rem 1rem 0 0
 
 .textAnimation
     animation: animate 100s linear infinite
