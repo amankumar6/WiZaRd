@@ -1,0 +1,330 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital@1&family=Poppins&display=swap')
+
+@font-face
+    font-family: League Spartan
+    src: url(../assets/fonts/LeagueSpartan-Bold.otf)
+
+// Colors
+$white: #f3f3f3
+$hotPink: #CD1F5B
+$blue: #0d6efd
+$darkBlue: #1A2980
+$lightPurple: #514A9D
+
+// Fonts
+$LeagueSpartan: League Spartan, Helvetica, Arial, sans-serif
+$Poppins: 'Poppins', sans-serif
+$Montserrat: 'Montserrat', sans-serif
+
+@mixin flex($justify,$align)
+    display: flex
+    justify-content: $justify
+    align-items: $align
+
+@mixin pos($t, $r, $b, $l)
+    top: $t
+    right: $r
+    bottom: $b
+    left: $l
+
+*
+    margin: 0
+    padding: 0
+    box-sizing: border-box
+
+body
+    color: $white
+
+#loader
+    font-size: 4rem
+    font-family: $LeagueSpartan
+    position: fixed
+    height: 100vh
+    width: 100%
+    background: linear-gradient(315deg, #2d3436 0%, #000000 74%) no-repeat fixed center
+    transition: transform 1000ms cubic-bezier(.694,.048,.335,1)
+    z-index: 6
+
+    p
+        position: absolute
+        top: 50%
+        left: 50%
+        transform: translate(-50%,-50%)
+        width: max-content
+
+.loaded1
+    transform: translateX(100%)
+
+.loaded2
+    transform: translateX(-100%)
+
+.loaded3
+    transform: translateY(100%)
+
+.loaded4
+    transform: translateY(-100%)
+
+.mute
+    position: fixed
+    color: white
+    @include pos(4px, 4px, auto, auto)
+    @include flex(center,center)
+    width: 40px
+    z-index: 5
+    transform: translate(-4px,4px)
+    cursor: pointer
+    background: rgba(255,255,255,0.03)
+    padding: 10px 
+    border-radius: 5px
+
+#particles-js
+    position: relative
+    width: 100%
+    height: 100vh
+    background-color: black
+    transition: all 200ms cubic-bezier(.694,.048,.335,1)
+
+    canvas
+        display: block
+        vertical-align: bottom
+        position: relative
+        opacity: 0
+        transition: opacity 1300ms cubic-bezier(.694,.048,.335,1) 600ms
+
+    .canvasLoaded
+        opacity: 1
+
+    .video
+        position: absolute
+        top: 0
+        left: 0
+        height: 100vh
+        width: 100%
+        overflow: hidden
+        opacity: 0
+        transition: opacity 1300ms cubic-bezier(.694,.048,.335,1) 1300ms
+
+    .videoLoaded
+        opacity: 1
+
+    .intro
+        font-family: League Spartan, Helvetica, Arial, sans-serif
+        color: $blue
+        @include flex(center,center)
+        position: absolute
+        @include pos(50%, auto, auto, 0)
+        transform: translate(-30%,-50%)
+        z-index: 2
+        cursor: default
+        opacity: 0
+        transition: all 600ms ease 1300ms
+        width: max-content
+
+        .profilPicBorder
+            --border-width: 2px
+            border-radius: 50%
+            position: relative
+            margin-right: 2rem
+
+            &::after
+                position: absolute
+                content: ''
+                top: calc(-1 * var(--border-width))
+                left: calc(-1 * var(--border-width))
+                z-index: -1
+                width: calc(100% + var(--border-width) * 2)
+                height: calc(100% + var(--border-width) * 2 )
+                background: linear-gradient(60deg,hsl(224, 85%, 66%), hsl(269, 85%, 66%), hsl(314, 85%, 66%), hsl(359, 85%, 66%), hsl(44, 85%, 66%), hsl(89, 85%, 66%), hsl(134, 85%, 66%), hsl(179, 85%, 66%))
+                background-size: 300% 300%
+                background-position: 0 50%
+                border-radius: 50%
+                animation: moveGradient 4s alternate infinite
+
+            .profilPic
+                background-image: url('https://res.cloudinary.com/dbvthtwhc/image/upload/v1613106464/wizard/profilePic.jpg')
+                background-repeat: no-repeat
+                background-position: center left
+                border-radius: 50%
+                width: 20rem
+                height: 20rem
+                position: relative
+                overflow: hidden
+                box-sizing: content-box
+
+        p.para
+            font-size: 3.9rem
+
+            span.name
+                color: $hotPink
+
+        p.reveal
+            font-family: $Montserrat
+            font-style: italic
+            word-spacing: 2px
+            font-size: 1.2rem
+
+        .follow
+            color: $white
+            font-family: $Poppins
+            width: max-content
+            padding: 10px 20px
+            border-radius: 6px
+            text-align: center
+            margin-top: 20px
+            font-size: 1.2rem
+            cursor: pointer
+            letter-spacing: 1px
+            transition: all 400ms ease
+            background-image: linear-gradient(to right, $darkBlue 0%, $darkBlue 51%, $lightPurple 100%)
+            background-size: 200% 100%
+            background-position: 100%
+
+        @media screen and ( min-width: 1000px )
+            p.para span.name
+                position: relative
+                transition: all 400ms ease 100ms
+
+                &::after
+                    content: ''
+                    position: absolute
+                    @include pos(0, 0, 0, auto)
+                    width: 0
+                    height: 90%
+                    background: $hotPink
+                    z-index: -1
+                    transition: all 400ms cubic-bezier(.694,.048,.335,1) 100ms
+
+                &:hover::after
+                    width: 100%
+                    left: 0
+
+                &:hover
+                    color: white
+
+            .follow:hover
+                background-position: 0 100%
+
+        @media screen and ( max-width: 870px )
+            flex-direction: column
+            transform: translate(-50%,-50%)
+
+            .profilPicBorder
+                margin-right: 0
+                margin-bottom: 2rem
+
+                .profilPic
+                    width: 15rem
+                    height: 15rem
+
+            div
+                @include flex(center,center)
+                flex-direction: column
+
+        @media screen and ( max-width: 700px )
+            p.para
+                font-size: 2.9rem
+
+            p.reveal
+                font-size: 1rem
+
+            .follow
+                font-size: 1rem
+
+        @media screen and ( max-width: 360px )
+            p.para
+                font-size: 2rem
+
+            p.reveal
+                font-size: 0.8rem
+
+            .follow
+                font-size: 0.8rem
+
+    .introLoaded
+        opacity: 1
+        @include pos(50%, auto, auto, 30%)
+
+        @media screen and ( max-width: 870px )
+            @include pos(50%, 0, 0, 50%)
+
+.followMe
+    position: fixed
+    opacity: 0
+    @include pos(-10%, auto, auto, 50%)
+    box-shadow: 0px 0px 12px #282828
+    border-radius: 20px
+    font-family: $Poppins
+    padding: 2rem 4rem
+    transform: translate(-50%,-65%)
+    background: rgba(0,0,0,0.95)
+    z-index: 4
+    transition: all 500ms ease
+
+    ul
+        font-family: $Poppins
+        list-style: none
+        font-size: 1.2rem
+        @include flex(center,center)
+        transform: translateX(1rem)
+        flex-wrap: wrap
+
+        li
+            margin: 1rem 2rem 0 0
+            a
+                text-decoration: none
+                @include flex(center,center)
+                flex-direction: column-reverse
+
+    .close
+        position: absolute
+        @include pos(10px, 15px, auto, auto)
+        cursor: pointer
+        @include flex(center,center)
+
+.followMeActive
+    opacity: 1
+    @include pos(50%, auto, auto, 50%)
+
+.textAnimation
+    animation: animate 100s linear infinite
+
+.overlay
+    filter: blur(5px)
+
+@keyframes moveGradient
+    50%
+        background-position: 100% 50%
+
+@keyframes animate
+    0%
+        color: #fb0094
+
+    10%
+        color: #0000ff
+
+    20%
+        color: #00ff00
+
+    30%
+        color: #ffff00
+
+    40%
+        color: #ff0000
+
+    50%
+        color: #fb0094
+
+    60%
+        color: #0000ff
+
+    70%
+        color: #00ff00
+
+    80%
+        color: #ffff00
+
+    90%
+        color: #ff0000
+
+    100%
+        color: #fb0094
