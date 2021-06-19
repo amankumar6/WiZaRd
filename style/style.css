@@ -447,8 +447,8 @@ body {
 }
 
 .overlay {
-  -webkit-filter: blur(5px);
-          filter: blur(5px);
+  background-color: white;
+  opacity: .85;
 }
 
 @-webkit-keyframes moveGradient {

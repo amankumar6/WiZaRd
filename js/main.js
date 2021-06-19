@@ -1,6 +1,6 @@
 let randomNumber = Math.floor(Math.random() * 4) + 1,
-    audio = document.querySelector(".audio"),
-    video = document.querySelector(".video"),
+    audio = document.querySelector('.audio'),
+    video = document.querySelector('.video'),
     isMuted = true;
 
 $(document).ready(function () {
@@ -21,26 +21,37 @@ $(document).ready(function () {
             $('#loader').addClass('loaded1');
     }
 
-    $('canvas').css('opacity','1');
-    $('.video').css('opacity','1');
-    $('.mute').css('opacity','1');
+    $('canvas').css('opacity', '1');
+    $('.video').css('opacity', '1');
+    $('.mute').css('opacity', '1');
     $('.intro').addClass('introLoaded');
 
     // text animation
-    const text = baffle('.reveal');
-    text.set({
-        characters: '▓░▒ ▒/░▒░ ▓██<░ /▓░ /▒█░> ▓░▓▒ ░<▓ █░█▒ /░██',
-        speed: 100,
-    });
-    text.start();
-    text.reveal(2000, 1000);
+
+    let elements = document.getElementsByClassName('typewrite');
+    for (let i = 0; i < elements.length; i++) {
+        let toRotate = elements[i].getAttribute('data-type');
+        let period = elements[i].getAttribute('data-period');
+        if (toRotate) {
+            new TxtType(elements[i], JSON.parse(toRotate), period);
+        }
+    }
+    // INJECT CSS
+    let css = document.createElement('style');
+    css.type = 'text/css';
+    css.innerHTML = '.typewrite > .wrap { border-right: 0.08em solid #fff}';
+    document.body.appendChild(css);
 
     $('.follow').click(() => {
-        $(".followMe").addClass("followMeActive")
-        $(".followMe ul li a span").addClass("textAnimation")
-        $("#particles-js").addClass("overlay")
-        $("body").click(function (e) {
-            if(e.target.className != "followMe" && e.target.className != "follow" ) close()
+        $('.followMe').addClass('followMeActive');
+        $('.followMe ul li a span').addClass('textAnimation');
+        $('#particles-js').addClass('overlay');
+        $('body').click(function (e) {
+            if (
+                e.target.className != 'followMe' &&
+                e.target.className != 'follow'
+            )
+                close();
         });
     });
 
@@ -48,30 +59,72 @@ $(document).ready(function () {
 
     $('.mute').click(function (e) {
         e.preventDefault();
-        $(".fa-volume-slash").toggleClass("fa-volume-up");
+        $('.fa-volume-slash').toggleClass('fa-volume-up');
         isMuted = !isMuted;
         if (!isMuted) {
-            audio.play()
+            audio.play();
             audio.currentTime = video.currentTime;
-        } else audio.pause()
+        } else audio.pause();
     });
 
-    video.addEventListener('pause', () => audio.pause())
+    video.addEventListener('pause', () => audio.pause());
 });
 
 function close() {
-    $(".followMe").removeClass("followMeActive")
-    $(".followMe ul li a span").removeClass("textAnimation")
-    $("#particles-js").removeClass("overlay")
+    $('.followMe').removeClass('followMeActive');
+    $('.followMe ul li a span').removeClass('textAnimation');
+    $('#particles-js').removeClass('overlay');
 }
 
+function TxtType (el, toRotate, period) {
+    this.toRotate = toRotate;
+    this.el = el;
+    this.loopNum = 0;
+    this.period = parseInt(period, 10) || 2000;
+    this.txt = '';
+    this.tick();
+    this.isDeleting = false;
+};
 
-console.log('___███████▀◢▆▅▃ 　　　   　　 　　　 ▀▀████ ___')
-console.log('___██████▌◢▀█▓▓█◣   　　　　　　▂▃▃　 ████ ___')
-console.log('__▐▐█████▍▌▐▓▓▉　　　　　　　◢▓▓█ ▼ ████ ___')
-console.log('__ ▌██████▎　 ▀▀▀　　　　　　 　█▓▓▌ ▌ █████ ___')
-console.log('_▐ ██████▊　 ℳ 　　　　　　　　▀◥◤▀    ▲████▉___')
-console.log('_▊ ███████◣ 　　　　　　  ′　　　ℳ　 ▃◢██████▐___')
-console.log('_ ▉ ████████◣ 　　　　 ▃、　　　　　◢███▊███ ___')
-console.log('_▉　 █████████▆▃　　　　　　　 ◢████▌ ███  ___')
-console.log('_ ▉　 ████▋████▉▀◥▅▃▃▅▇███▐██▋　▐██___')
+TxtType.prototype.tick = function () {
+    let i = this.loopNum % this.toRotate.length;
+    let fullTxt = this.toRotate[i];
+
+    if (this.isDeleting) {
+        this.txt = fullTxt.substring(0, this.txt.length - 1);
+    } else {
+        this.txt = fullTxt.substring(0, this.txt.length + 1);
+    }
+
+    this.el.innerHTML = '<span class="wrap">' + this.txt + '</span>';
+
+    let that = this;
+    let delta = 200 - Math.random() * 100;
+
+    if (this.isDeleting) {
+        delta /= 2;
+    }
+
+    if (!this.isDeleting && this.txt === fullTxt) {
+        delta = this.period;
+        this.isDeleting = true;
+    } else if (this.isDeleting && this.txt === '') {
+        this.isDeleting = false;
+        this.loopNum++;
+        delta = 500;
+    }
+
+    setTimeout(function () {
+        that.tick();
+    }, delta);
+};
+
+console.log('___███████▀◢▆▅▃ 　　　   　　 　　　 ▀▀████ ___');
+console.log('___██████▌◢▀█▓▓█◣   　　　　　　▂▃▃　 ████ ___');
+console.log('__▐▐█████▍▌▐▓▓▉　　　　　　　◢▓▓█ ▼ ████ ___');
+console.log('__ ▌██████▎　 ▀▀▀　　　　　　 　█▓▓▌ ▌ █████ ___');
+console.log('_▐ ██████▊　 ℳ 　　　　　　　　▀◥◤▀    ▲████▉___');
+console.log('_▊ ███████◣ 　　　　　　  ′　　　ℳ　 ▃◢██████▐___');
+console.log('_ ▉ ████████◣ 　　　　 ▃、　　　　　◢███▊███ ___');
+console.log('_▉　 █████████▆▃　　　　　　　 ◢████▌ ███  ___');
+console.log('_ ▉　 ████▋████▉▀◥▅▃▃▅▇███▐██▋　▐██___');
